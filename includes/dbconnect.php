@@ -1,12 +1,10 @@
 <?php
 
+
 function conn_create() {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    
+    include_once("config.php");
     // Create connection
-    $conn = new mysqli($servername, $username, $password);
+    $conn = new mysqli($DBSERVER, $DBUSER, $DBPASSWORD);
     
     // Check connection
     if ($conn->connect_error) {
@@ -31,11 +29,11 @@ if ($conn->query($sql) === TRUE) {
 }
 
 function create_table($conn) {
-    $sql = "CREATE TABLE dbkittens.mainkittens (
+    $sql = "CREATE TABLE IF NOT EXISTS dbkittens.mainkittens (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(30) NOT NULL,
         description VARCHAR(30) NOT NULL,
-        email VARCHAR(50),
+        status VARCHAR(50),
         reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )";
         
@@ -45,15 +43,26 @@ function create_table($conn) {
             echo "Error creating table: " . $conn->error;
         }
 
-        $sql = "CREATE TABLE dbkittens.secondkittens (
+        $sql = "CREATE TABLE IF NOT EXISTS dbkittens.secondkittens (
             id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(30) NOT NULL,
-            description VARCHAR(30) NOT NULL,
-            email VARCHAR(50),
-            katfk int(6),
+            picture BLOB,
+            catfk int(6),
             reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )";
         
+        if ($conn->query($sql) === TRUE) {
+            echo "Table secondkittens created successfully";
+        } else {
+            echo "Error creating table: " . $conn->error;
+        }
+
+        $sql = "CREATE TABLE IF NOT EXISTS dbkittens.users (
+          id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          username varchar(30),
+          password varchar(30),
+          reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+          )";
+      
         if ($conn->query($sql) === TRUE) {
             echo "Table secondkittens created successfully";
         } else {
@@ -79,5 +88,11 @@ function insert_entry($conn) {
 
 }
 
+// function get_data() {
+
+//   $conn = mysql()
+//   $sql = "SELECT * FROM dbkittens.mainkittens";
+
+// }
 
 ?>

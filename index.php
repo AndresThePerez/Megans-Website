@@ -4,9 +4,9 @@
 
 
     $conn = conn_create();
-    create_db($conn);
-    create_table($conn);
-    insert_entry($conn);
+    // create_db($conn);
+    // create_table($conn);
+    // insert_entry($conn);
 
     $conn->close();
 ?>
