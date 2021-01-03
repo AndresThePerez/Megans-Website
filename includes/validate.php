@@ -3,7 +3,7 @@
 session_start();
 
 function authenticate($data) {
-    $conn = new mysqli("localhost", "root", "", "users");
+    include("includes/config.php");
     $query = "SELECT * from users";
     $result = $conn->query($query);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
