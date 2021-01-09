@@ -29,7 +29,7 @@ session_start();
     <title>Document</title>
 </head>
 <body>
-            <h1 class="text-center mb-10">Admin Page</h1>
+<h1 class="text-center mb-10 admin">Admin Page</h1>
 
 <div class="container w-75">
     <div class="d-flex justify-content-end mb-2">
@@ -41,6 +41,7 @@ session_start();
                     <th>ID</th>
                     <th>Name</th>
                     <th>Subheading</th>
+                    <th>Date of Birth</th>
                     <th>Description</th>
                     <th>Action</th>
                 </tr>
@@ -52,6 +53,7 @@ session_start();
                         echo "<td>".$entry['id']."</td>";
                         echo "<td>".$entry['name']."</td>";
                         echo "<td>".$entry['subheading']."</td>";
+                        echo "<td>".$entry['dob']."</td>";
                         echo "<td>".$entry['description']."</td>";
                         echo "<td><a class='btn btn-secondary' data-toggle='modal' data-target='#edit-entry-modal-".$entry['id']."'>Edit</a>
                                 <a class='btn btn-danger' onClick=\"javascript: return confirm('Please confirm deletion');\" href='/actions/delete.php?id=".$entry['id']."'>Delete</a>
@@ -95,6 +97,13 @@ session_start();
         </div>
         <br>
         <div class="row">
+            <div class="col-6">
+                <label for="subheading">Date Of Birth</label>
+                <input type="text" class="date form-control" id="date" name="date" value="" required></input>
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <div class="col-12">
                 <label for="description">Description</label>
                 <textarea type="text" class="form-control" id="description" name="description" value="" required></textarea>
@@ -115,6 +124,17 @@ session_start();
 </div>
 
 
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+  $(function () {
+    $(".date").datepicker();
+  });
+</script>
+
+
 
 
 <?php 
@@ -131,7 +151,7 @@ foreach ($array as $entry) {
         </button>
       </div>
       <div class="modal-body">
-      <form action="" method="post" href="inclues/actionfunctions.php">
+      <form action="/admin_page.php" method="post">
         <div class="row">
             <div class="col-6">
                 <label for="name">Name</label>
@@ -147,6 +167,13 @@ foreach ($array as $entry) {
         </div>
         <br>
         <div class="row">
+            <div class="col-6">
+                <label for="subheading">Date Of Birth</label>
+                <input type="text" class="date form-control" id="date_<?php echo $entry['id'] ?>" name="date" value="<?php echo $entry['dob'] ?>" required></input>
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <div class="col-12">
                 <label for="description">Description</label>
                 <textarea type="text" class="form-control" id="description" name="description" required><?php echo $entry['description'] ?></textarea>
@@ -157,12 +184,18 @@ foreach ($array as $entry) {
       <input type="hidden" class="form-control" id="name_old" name="name_old" value="<?php echo $entry['name'] ?>"></input>
       <input type="hidden" class="form-control" id="subheading_old" name="subheading_old" value="<?php echo $entry['subheading'] ?>"></input>
       <input type="hidden" class="form-control" id="description_old" name="description_old" value="<?php echo $entry['description'] ?>"></input>
+      <input type="hidden" class="form-control" id="date_old" name="date_old" value="<?php echo $entry['dob'] ?>"></input>
+      <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $entry['id'] ?>"></input>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit_edit" name="submit_edit" value="Edit" class="btn btn-primary">
+        <input type="submit" name="submit_edit" value="Edit" class="btn btn-primary">
         </form>
       </div>
     </div>
   </div>
 </div>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <?php }?>
